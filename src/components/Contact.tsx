@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Mail, 
-  Phone, 
-  MessageCircle, 
-  Download, 
+import {
+  Mail,
+  Phone,
+  MessageCircle,
+  Download,
   Send,
   User,
   FileText,
-  MapPin
+  MapPin,
+  AlertCircle
 } from 'lucide-react';
 
 const Contact: React.FC = () => {
@@ -18,17 +19,67 @@ const Contact: React.FC = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
+
     setIsSubmitting(false);
     setFormData({ name: '', email: '', message: '' });
     alert('Message envoyé avec succès !');
+  };
+
+  const downloadPdf = async () => {
+    setIsDownloading(true);
+    setError(null);
+
+    try {
+      // Chemin vers le fichier dans le dossier assets
+      const pdfPath = `/assets/cv.pdf`;
+
+      // Créer une requête pour récupérer le fichier
+      const response = await fetch(pdfPath);
+
+      if (!response.ok) {
+        throw new Error(`Erreur ${response.status}: Fichier non trouvé`);
+      }
+
+      // Convertir la réponse en blob
+      const blob = await response.blob();
+
+      // Vérifier que c'est bien un PDF
+      if (blob.type !== 'application/pdf' && !"cv.pdf".toLowerCase().endsWith('.pdf')) {
+        throw new Error('Le fichier n\'est pas un PDF valide');
+      }
+
+      // Créer un URL temporaire pour le blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Créer un élément <a> temporaire pour déclencher le téléchargement
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = "cv.pdf";
+      link.style.display = 'none';
+
+      // Ajouter le lien au DOM, cliquer dessus, puis le supprimer
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Nettoyer l'URL temporaire
+      window.URL.revokeObjectURL(url);
+
+    } catch (err) {
+      console.error('Erreur lors du téléchargement:', err);
+      setError(err instanceof Error ? err.message : 'Erreur inconnue');
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -59,13 +110,6 @@ const Contact: React.FC = () => {
       value: 'Chat direct',
       action: 'https://wa.me/221777550980',
       color: 'from-green-400 to-green-600'
-    },
-    {
-      icon: <Download className="w-6 h-6" />,
-      label: 'Télécharger CV',
-      value: 'CV Expert.pdf',
-      action: '/cv.pdf',
-      color: 'from-orange-500 to-red-500'
     }
   ];
 
@@ -83,7 +127,7 @@ const Contact: React.FC = () => {
             Contactez-moi
           </h2>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
-            Prêt à transformer vos idées en solutions digitales innovantes ? 
+            Prêt à transformer vos idées en solutions digitales innovantes ?
             Discutons de votre projet !
           </p>
         </motion.div>
@@ -142,6 +186,52 @@ const Contact: React.FC = () => {
                 </motion.div>
               </motion.a>
             ))}
+            <motion.div
+              onClick={downloadPdf}
+              className="flex items-center gap-4 p-6 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all duration-300 group"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 3 * 0.1 }}
+              whileHover={{ scale: 1.02, y: -2 }}
+            >
+              <motion.div
+                className={`p-4 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 text-white`}
+                whileHover={{ scale: 1.1, rotate: 5 }}
+              >
+                <Download className="w-6 h-6" />
+              </motion.div>
+              <div className="flex-1">
+
+                {isDownloading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                    Téléchargement...
+                  </>
+                ) : (
+                  <>
+                    <h4 className="font-semibold text-slate-800 dark:text-white text-lg">
+                      Télécharger CV
+                    </h4>
+                  </>
+                )}
+                <p className="text-slate-600 dark:text-slate-300">
+                  CV cv.pdf
+                </p>
+              </div>
+              <motion.div
+                className="opacity-0 group-hover:opacity-100 transition-opacity"
+                animate={{ x: [0, 5, 0] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
+                <Send className="w-5 h-5 text-cyan-500" />
+              </motion.div>
+            </motion.div>
+            {error && (
+              <div className="mt-2 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-700">
+                <AlertCircle size={16} className="flex-shrink-0" />
+                <span className="text-sm">{error}</span>
+              </div>
+            )}
           </motion.div>
 
           {/* Contact Form */}

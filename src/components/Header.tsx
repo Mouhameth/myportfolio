@@ -29,7 +29,7 @@ const Header: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="flex-shrink-0"
           >
-            <div className="relative">
+            <div className="relative mt-16 lg:mt-0" >
               <motion.div
                 className="w-80 h-96 rounded-2xl overflow-hidden border-4 border-white/20 shadow-2xl"
                 whileHover={{ scale: 1.05 }}
