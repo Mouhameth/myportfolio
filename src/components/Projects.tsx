@@ -96,27 +96,27 @@ const Projects: React.FC = () => {
     {
       id: 9,
       title: "koli",
-      description: ": Une application pour la livraison en temps réel. Elle est simple conviviale et intuitive ",
-      icon: <Monitor className="w-8 h-8" />,
+      description: "Une application pour la livraison en temps réel. Elle est simple conviviale et intuitive ",
+      icon: <Smartphone className="w-8 h-8" />,
       category: 'Mobile',
       technologies: ['React', 'Nextjs', 'Tailwind', 'Nodejs', 'Flutter', 'Socket.io', 'PostgreSQL'],
-      image: 'https://www.sedco.co/_next/image?url=https%3A%2F%2Fdashboard.sedco.co%2Fuploads%2FQueue_Management_System_Hero_Banner_93dd9940e9.jpg&w=3840&q=75',
+      image: 'https://static.vecteezy.com/ti/vecteur-libre/p1/1990179-service-de-livraison-en-ligne-fond-concept-e-commerce-concept-scooter-rouge-smartphone-et-carte-pin-vector-illustration-gratuit-vectoriel.jpg',
       color: 'from-teal-500 to-blue-500'
     },
     {
       id: 10,
       title: "Kolix",
       description: "L'application du livreur de Koli. Elle permet de recevoir les demandes de livraison en temps réel. Elle est simple conviviale et intuitive ",
-      icon: <Monitor className="w-8 h-8" />,
+      icon: <Smartphone className="w-8 h-8" />,
       category: 'Mobile',
       technologies: ['Flutter', 'Socket.io'],
-      image: 'https://axlesys.com/wp-content/uploads/2023/10/b3-1.jpg',
+      image: 'https://appmaster.io/api/_files/bkvuc3AMfgniGJN67z49v4/download/',
       color: 'from-teal-500 to-blue-500'
     },
     {
       id: 11,
       title: 'Lost&Found',
-      description: ": une app innovante intégrant de l'IA pour déclarer et retrouver des objets perdus.",
+      description: "Une app innovante intégrant de l'IA pour déclarer et retrouver des objets perdus.",
       icon: <Monitor className="w-8 h-8" />,
       category: 'Web & Mobile',
       technologies: ['React', 'Nextjs', 'Tailwind', 'Nodejs', 'Flutter', 'PostgreSQL'],
@@ -205,7 +205,7 @@ const Projects: React.FC = () => {
                   <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-3">
                     {project.title}
                   </h3>
-                  <p className="text-slate-600 dark:text-slate-300 mb-4 line-clamp-3">
+                  <p className="text-slate-600 dark:text-slate-300 mb-4 line-clamp-4">
                     {project.description}
                   </p>
 
