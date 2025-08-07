@@ -40,7 +40,7 @@ const Contact: React.FC = () => {
 
     try {
       // Chemin vers le fichier dans le dossier assets
-      const pdfPath = `/assets/cv.pdf`;
+      const pdfPath = `/cv.pdf`;
 
       // Créer une requête pour récupérer le fichier
       const response = await fetch(pdfPath);
